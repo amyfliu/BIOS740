@@ -1,0 +1,100 @@
+Thu Feb  5 18:07:49 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-PCIE-40GB          On  |   00000000:A3:00.0 Off |                   13 |
+| N/A   28C    P0             32W /  250W |       0MiB /  40960MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+-------- Checking Imports ---------
+All imports are successsful!
+/nas/longleaf/home/fangliu/.conda/envs/torch_env/bin/python
+
+-------- Checking GPU -------------
+cuda available: True
+device count: 1
+name: NVIDIA A100-PCIE-40GB
+capability: (8, 0)
+memory GB (approx): 39.4935302734375
+
+---------- Checking files -----------
+adnimerge exists: True
+left dir exists: True
+right dir exists: True
+
+------- Peek the data -----------
+         PTID EXAMDATE_FILE         TAG  ... EXAMDATE_MATCHED DELTA_DAYS label_idx
+0  002_S_0295    2006-05-09  S118671.5T  ...       2006-05-09        0.0         0
+1  002_S_0295    2006-11-02  S118692.5T  ...       2006-11-02        0.0         0
+2  002_S_0295    2007-05-25   S64025.5T  ...       2007-05-25        0.0         0
+
+[3 rows x 9 columns]
+
+[INFO] Paired samples: 3855
+DX_NORM
+CN    2397
+AD    1458
+Name: count, dtype: int64
+
+------------ Sanity Test for CNN --------------
+Output shape: torch.Size([2, 2])
+Output tensor: tensor([[ 0.0481, -0.1145],
+        [ 0.0607, -0.0953]])
+
+-------------- CPU information -------------
+CPU affinity: 4
+cpu_count: 128
+
+-------------- Checking Data Splits ----------------
+training & validation overlap: 0
+training & testing overlap: 0
+validation & testing overlap: 0
+
+# of unique subjects: 1178
+# of unique subjects in train: 942
+# of uinque subjects in val: 118
+# of unique subjects in test: 118
+
+The training set contain 3081 samples.
+The validation set contain 421 samples.
+The testing set contain 353 samples.
+Each sample has shape torch.Size([14, 150, 100]).
+
+------Training SimpleCNN------
+
+--------Evaluating SimpleCNN--------
+Test Accuracy:        0.8266
+Test Precision(w):    0.8277
+Test Recall(w):       0.8266
+Test F1(w):           0.8205
+Test ROC-AUC(weighted, ovr):         0.8822
+
+Confusion Matrix (rows=true, cols=pred) [CN, AD]:
+[[251  19]
+ [ 54  97]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+          CN     0.8230    0.9296    0.8730       270
+          AD     0.8362    0.6424    0.7266       151
+
+    accuracy                         0.8266       421
+   macro avg     0.8296    0.7860    0.7998       421
+weighted avg     0.8277    0.8266    0.8205       421
+
+
+------ Testing SimpleCNN ------
+Predicted AD status is saved!
