@@ -15,7 +15,7 @@ This part of the assignment is adapted from Module 5 of Andrew Ng's Deep Learnin
 **The overall workflow for the project is as follows:**
 
 1.  Testing and debugging of all code via jupyter notebook via Longleaf OnDemand; testing using 1 epoch (`hw2_part1_heartbeat_classification_assignment.ipynb`). 
-2.  Jupyter Notebook (GPU-FULL) with full A100 GPU and 40GB GPU memory
+2.  Jupyter Notebook (GPU-FULL) with full A100 GPU and 40GB GPU memory (30 epochs)
 
 **Key files**
 
