@@ -388,7 +388,6 @@ class MultiHeadAttention(nn.Module):
                 MultiHeadAttention block
 
 
-
         NOTE: Here, when we say dimension, we mean the dimesnion of the embeddings.
               In Transformers the input is a tensor of shape (N, K, M), here N is
               the batch size , K is the sequence length and M is the size of the
@@ -401,16 +400,33 @@ class MultiHeadAttention(nn.Module):
 
         ##########################################################################
         # TODO: Initialize two things here:                                      #
-        # 1.) Use nn.ModuleList to initialze a list of SingleHeadAttention layer #
-        # modules.The length of this list should be equal to num_heads with each #
-        # SingleHeadAttention layer having input dimension as dim_in, and query  #
-        # , key, and value dimension as dim_out.                                 #
-        # 2.) Use nn.Linear to map the output of nn.Modulelist block back to     #
+        # 1.) Use nn.ModuleList to initialize a list of SelfAttention layer      #
+        # modules. The length of this list should be equal to num_heads with each#
+        # SelfAttention layer having input dimension as dim_in, and query, key,  #
+        # and value dimension as dim_out.                                        #
+        # 2.) Use nn.Linear to map the output of nn.ModuleList block back to     #
         # dim_in. Initialize the weights using the strategy mentioned in         #
         # SelfAttention.                                                         #
         ##########################################################################
-        # Replace "pass" statement with your code
-        pass
+
+        # Initialize nn.ModuleList with num_heads of SelfAttention layers.
+        # Each head maps dim_in -> dim_out (for Q, K, and V).
+        self.heads = nn.ModuleList([
+            SelfAttention(dim_in, dim_out, dim_out) for _ in range(num_heads)
+        ])
+
+        # Final linear layer mapping concatenated heads (each head produce output of 
+        # size dim_out so we have num_heads * dim_out) back to the original input dimension (dim_in).
+        self.output_linear = nn.Linear(num_heads * dim_out, dim_in)
+
+        # Weight initialization strategy (Uniform [-c, c] where c = sqrt(6/(D_in + D_out)))
+        D_in_total = num_heads * dim_out
+        D_out_total = dim_in
+        c = math.sqrt(6 / (D_in_total + D_out_total))
+        
+        nn.init.uniform_(self.output_linear.weight, -c, c)
+        if self.output_linear.bias is not None:
+            nn.init.zeros_(self.output_linear.bias)   
         ##########################################################################
         #               END OF YOUR CODE                                         #
         ##########################################################################
@@ -453,8 +469,16 @@ class MultiHeadAttention(nn.Module):
         # output. Concatenate this list if tensors and pass them through the     #
         # nn.Linear mapping function defined in the initialization step.         #
         ##########################################################################
-        # Replace "pass" statement with your code
-        pass
+        # Pass inputs through each head in the ModuleList
+        # head_outputs will be a list of tensors, each of shape (N, K, dim_out)
+        head_outputs = [head(query, key, value, mask) for head in self.heads] #output of each head is (N, K, dim_out)
+
+        # Concatenate the outputs along the last dimension (embedding dimension)
+        # Shape: (N, K, num_heads * dim_out)
+        multi_head_concat = torch.cat(head_outputs, dim=-1)
+
+        # Project back to dim_in
+        y = self.output_linear(multi_head_concat)
         ##########################################################################
         #               END OF YOUR CODE                                         #
         ##########################################################################
