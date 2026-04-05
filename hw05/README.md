@@ -1,4 +1,4 @@
-## BIOS740 - HW05 Transformers
+## BIOS740 - HW05 (Transformers)
 
 In this assignment, you will implement Transformers model step-by-step by referencing the original paper, (https://arxiv.org/pdf/1706.03762.pdf). You will also use a toy dataset to solve a vector-to-vector problem which is a subset of sequence-to-sequence problem.
 
@@ -14,5 +14,4 @@ In this notebook, you will learn how to implement an Encoder-Decoder based Trans
    - Encoder Block
    - Decoder Block
 3. Part III (Data Loading): We will use the preprocessing functions in part I and the positional encoding module to construct the Dataloader.
-4. Part IV (Train a model): In the last part we will look at how to fit the implemented Transformer model to the toy dataset.
-
+4. Part IV (Train a model): In the last part we will look at how to fit the implemented Transformer model to the toy dataset
