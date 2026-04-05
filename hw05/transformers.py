@@ -104,13 +104,13 @@ def scaled_dot_product_two_loop_single(
         value: a Tensor of shape (K, M) where K is the sequence length and M is
             the sequence embeding dimension
 
-
     Returns
         out: a tensor of shape (K, M) which is the output of self-attention from
         the function
     """
     # make a placeholder for the output
     out = None
+
     ###############################################################################
     # TODO: Implement this function using exactly two for loops. For each of the  #
     # K queries, compute its dot product with each of the K keys. The scalar      #
@@ -121,7 +121,22 @@ def scaled_dot_product_two_loop_single(
     # using weighted sum becomes an output to the Kth query vector                #
     ###############################################################################
     # Replace "pass" statement with your code
-    pass
+    K, M = query.shape
+    out = torch.zeros(K, M)
+    
+    # For each query
+    for i in range(K):
+        # Compute scaled dot products with all keys
+        scores = torch.zeros(K)
+        for j in range(K):
+            # Dot product of query i with key j, scaled by sqrt(M)
+            scores[j] = torch.dot(query[i], key[j]) / (M ** 0.5)
+        
+        # Apply softmax to get attention weights
+        weights = torch.softmax(scores, dim=0)
+        
+        # Compute weighted sum of values
+        out[i] = weights @ value  # matrix-vector product
     ##############################################################################
     #               END OF YOUR CODE                                             #
     ##############################################################################
@@ -158,17 +173,28 @@ def scaled_dot_product_two_loop_batch(
     out = torch.zeros_like(query)
     N, K, M = query.shape
     ###############################################################################
-    # TODO: This function is extedning self_attention_two_loop_single for a batch #
+    # TODO: This function is extending self_attention_two_loop_single for a batch #
     # of N. Implement this function using exactly two for loops. For each N       #
     # we have a query, key and value. The final output is the weighted sum of     #
     # values of these N queries and keys. The weight here is computed using scaled#
-    # dot product  between each of the K queries and key. The scaling value here  #
+    # dot product between each of the K queries and key. The scaling value here   #
     # is sqrt(M). For each of the N sequences, compute the softmaxed weights and  #
     # use them to compute weighted average of value matrix.                       #
     # Hint: look at torch.bmm                                                     #
     ###############################################################################
     # Replace "pass" statement with your code
-    pass
+    for n in range(N):
+        # Compute all scaled dot products for batch n: shape (K, K)
+        scores = torch.bmm(
+            query[n : n + 1], key[n : n + 1].transpose(1, 2)
+        ).squeeze(0) / (M ** 0.5)
+
+        # Compute softmax weights for each query in the sequence
+        weights = torch.softmax(scores, dim=1)
+
+        # Weighted sum of values for each query in this batch item
+        for i in range(K):
+            out[n, i] = weights[i] @ value[n]
     ##############################################################################
     #               END OF YOUR CODE                                             #
     ##############################################################################
@@ -208,7 +234,6 @@ def scaled_dot_product_no_loop_batch(
             weight matrix.
 
     """
-
     _, _, M = query.shape
     y = None
     weights_softmax = None
@@ -223,16 +248,18 @@ def scaled_dot_product_no_loop_batch(
     # Hint: look at torch.bmm and torch.masked_fill                               #
     ###############################################################################
     # Replace "pass" statement with your code
-    pass
+    scores = torch.bmm(query, key.transpose(1, 2)) / math.sqrt(M)
     if mask is not None:
         ##########################################################################
         # TODO: Apply the mask to the weight matrix by assigning -1e9 to the     #
         # positions where the mask value is True, otherwise keep it as it is.    #
         ##########################################################################
         # Replace "pass" statement with your code
-        pass
+        scores = scores.masked_fill(mask, -1e9)
+   
     # Replace "pass" statement with your code
-    pass
+    weights_softmax = torch.softmax(scores, dim=2)
+    y = torch.bmm(weights_softmax, value)
     ##############################################################################
     #               END OF YOUR CODE                                             #
     ##############################################################################
@@ -274,7 +301,23 @@ class SelfAttention(nn.Module):
         ##########################################################################
         # Replace "pass" statement with your code
         # use nn.init.uniform_ to initialize the weights
-        pass
+        self.q = nn.Linear(dim_in, dim_q)
+        self.k = nn.Linear(dim_in, dim_q)
+        self.v = nn.Linear(dim_in, dim_v)
+
+        # Initialize weights with uniform distribution bounded by [-c, c]
+        c_q = math.sqrt(6 / (dim_in + dim_q))
+        c_k = math.sqrt(6 / (dim_in + dim_q))
+        c_v = math.sqrt(6 / (dim_in + dim_v))
+        nn.init.uniform_(self.q.weight, -c_q, c_q)
+        nn.init.uniform_(self.k.weight, -c_k, c_k)
+        nn.init.uniform_(self.v.weight, -c_v, c_v)
+        if self.q.bias is not None:
+            nn.init.zeros_(self.q.bias)
+        if self.k.bias is not None:
+            nn.init.zeros_(self.k.bias)
+        if self.v.bias is not None:
+            nn.init.zeros_(self.v.bias)
         ##########################################################################
         #               END OF YOUR CODE                                         #
         ##########################################################################
@@ -309,7 +352,14 @@ class SelfAttention(nn.Module):
         # variable self.weights_softmax                                          #
         ##########################################################################
         # Replace "pass" statement with your code
-        pass
+        # Transform the inputs using the linear layers
+        q_proj = self.q(query)
+        k_proj = self.k(key)
+        v_proj = self.v(value)
+
+        # Compute self-attention output and store the weights
+        y, self.weights_softmax = scaled_dot_product_no_loop_batch(q_proj, k_proj, v_proj, mask)
+
         ##########################################################################
         #               END OF YOUR CODE                                         #
         ##########################################################################
