@@ -514,8 +514,10 @@ class LayerNormalization(nn.Module):
         # with appropriate dimensions. Dont forget to encapsulate these scale and#
         # shift initializations with nn.Parameter                                #
         ##########################################################################
-        # Replace "pass" statement with your code
-        pass
+        # Initialize the scale (gamma) and shift (beta) parameters.
+        # Gamma is initialized to ones, Beta to zeros; shape of embedding dimension (emb_dim).
+        self.gamma = nn.Parameter(torch.ones(emb_dim))
+        self.beta = nn.Parameter(torch.zeros(emb_dim))
         ##########################################################################
         #               END OF YOUR CODE                                         #
         ##########################################################################
@@ -541,8 +543,20 @@ class LayerNormalization(nn.Module):
         # these and shift this normalized input. Don't use torch.std to compute  # 
         # the standard deviation.                                                #
         ##########################################################################
-        # Replace "pass" statement with your code
-        pass
+        # Compute mean across the embedding dimension (dim=-1)
+        # keepdim=True ensures the output is (N, K, 1) for easy broadcasting
+        mean = x.mean(dim=-1, keepdim=True)
+
+        # Compute variance manually (E[(x - mean)^2])
+        # We don't use torch.std as per instructions.
+        var = ((x - mean) ** 2).mean(dim=-1, keepdim=True)
+
+        # Normalize the input
+        # We add epsilon inside the square root to prevent division by zero
+        x_norm = (x - mean) / torch.sqrt(var + self.epsilon)
+
+        # Scale and Shift using gamma and beta
+        y = self.gamma * x_norm + self.beta
         ##########################################################################
         #               END OF YOUR CODE                                         #
         ##########################################################################
