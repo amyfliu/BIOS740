@@ -591,10 +591,27 @@ class FeedForwardBlock(nn.Module):
         # dimesion of the second MLP. Initialize the weights of all the MLPs     #
         # according to the strategy mentioned in SelfAttention block             #
         # HINT: Will the shape of input and output shape of the FeedForwardBlock #
-        # change?                                                                #
+        # change? NOPE!                                                          #
         ##########################################################################
-        # Replace "pass" statement with your code
-        pass
+        # Initialize two linear layers.
+        # First layer expands: inp_dim -> hidden_dim_feedforward
+        # Second layer contracts: hidden_dim_feedforward -> inp_dim
+        self.linear1 = nn.Linear(inp_dim, hidden_dim_feedforward)
+        self.linear2 = nn.Linear(hidden_dim_feedforward, inp_dim)
+        self.relu = nn.ReLU()
+
+        # Weight initialization strategy (Uniform [-c, c])
+        # Layer 1
+        c1 = math.sqrt(6 / (inp_dim + hidden_dim_feedforward))
+        nn.init.uniform_(self.linear1.weight, -c1, c1)
+        if self.linear1.bias is not None:
+            nn.init.zeros_(self.linear1.bias)
+            
+        # Layer 2
+        c2 = math.sqrt(6 / (hidden_dim_feedforward + inp_dim))
+        nn.init.uniform_(self.linear2.weight, -c2, c2)
+        if self.linear2.bias is not None:
+            nn.init.zeros_(self.linear2.bias)
         ##########################################################################
         #               END OF YOUR CODE                                         #
         ##########################################################################
@@ -614,8 +631,15 @@ class FeedForwardBlock(nn.Module):
         # a forward pass. You should be using a ReLU layer after the first MLP and#
         # no activation after the second MLP                                      #
         ###########################################################################
-        # Replace "pass" statement with your code
-        pass
+        # Forward pass: Linear -> ReLU -> Linear
+        # Note: Without the ReLU in the middle, the two linear layers would collapse 
+        # into a single linear layer. ReLu adds non-linearity.
+        # Step 1: Expand
+        hidden = self.linear1(x)
+        # Step 2: Non-linear activation
+        activated = self.relu(hidden)
+        # Step 3: Contract back to original dimension
+        y = self.linear2(activated)
         ##########################################################################
         #               END OF YOUR CODE                                         #
         ##########################################################################
