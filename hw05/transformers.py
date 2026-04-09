@@ -7,6 +7,9 @@ import torch
 from torch import Tensor, nn, optim
 from torch.nn import functional as F
 import math
+import numpy as np
+
+from hw05.helper.grad import rel_error
 
 def hello_transformers():
     print("Hello from transformers.py!")
@@ -252,10 +255,10 @@ def scaled_dot_product_no_loop_batch(
     if mask is not None:
         ##########################################################################
         # TODO: Apply the mask to the weight matrix by assigning -1e9 to the     #
-        # positions where the mask value is True, otherwise keep it as it is.    #
+        # positions where the mask value is True, oSStherwise keep it as it is.    #
         ##########################################################################
         # Replace "pass" statement with your code
-        scores = scores.masked_fill(mask, -1e9)
+        scores = scores.masked_fill(mask == True, -1e9)
    
     # Replace "pass" statement with your code
     weights_softmax = torch.softmax(scores, dim=2)
@@ -687,7 +690,6 @@ class EncoderBlock(nn.Module):
 
             dropout: float value specifying the dropout value
 
-
         """
 
         if emb_dim % num_heads != 0:
@@ -713,11 +715,32 @@ class EncoderBlock(nn.Module):
         #    feedforward_dim                                                     #
         # 4. A Dropout layer with given dropout parameter                        #
         ##########################################################################
-        # Replace "pass" statement with your code
-        pass
+        # 1. MultiHead Attention block
+        # To keep the concatenated output dimension equal to emb_dim, 
+        # each head's output dimension (dim_out) should be emb_dim // num_heads.
+        head_dim = emb_dim // num_heads
+        self.multi_head_attention = MultiHeadAttention(
+            num_heads=num_heads, 
+            dim_in=emb_dim, 
+            dim_out=head_dim
+        )
+
+        # 2. Two LayerNorm layers
+        self.layer_norm1 = LayerNormalization(emb_dim)
+        self.layer_norm2 = LayerNormalization(emb_dim)
+
+        # 3. One FeedForward block
+        self.feed_forward = FeedForwardBlock(
+            inp_dim=emb_dim, 
+            hidden_dim_feedforward=feedforward_dim
+        )
+
+        # 4. Dropout layer
+        self.dropout = nn.Dropout(dropout)
         ##########################################################################
         #               END OF YOUR CODE                                         #
         ##########################################################################
+    
 
     def forward(self, x):
 
@@ -736,16 +759,30 @@ class EncoderBlock(nn.Module):
         # forward pass. As Multihead Attention takes in 3 inputs, use the same   #
         # input thrice as the input. Follow the Figure 1 in Attention is All you #
         # Need paper to complete the rest of the forward pass. You can also take #
-        # reference from the architecture written in the fucntion documentation. #
+        # reference from the architecture written in the function documentation. #
         ##########################################################################
-        # Replace "pass" statement with your code
-        pass
+
+        # inp: original input 'x'
+        
+        # 1. inp - multi_head_attention - out1
+        out1 = self.multi_head_attention(query=x, key=x, value=x)
+
+        # 2. layer_norm(out1 + inp) - dropout - out2
+        # Use self.layer_norm1 and self.dropout
+        out2 = self.dropout(self.layer_norm1(out1 + x))
+
+        # 3. feedforward - out3
+        out3 = self.feed_forward(out2)
+
+        # 4. layer_norm(out3 + out2) - dropout - out
+        # Use self.layer_norm2 and self.dropout
+        y = self.dropout(self.layer_norm2(out3 + out2))
 
         ##########################################################################
         #               END OF YOUR CODE                                         #
         ##########################################################################
         return y
-
+    
 
 def get_subsequent_mask(seq):
     """
@@ -754,10 +791,10 @@ def get_subsequent_mask(seq):
     (N, K) where N is the batch size and K is the sequence length.
 
     args:
-        seq: a tensor of shape (N, K) where N is the batch sieze and K is the
+        seq: a tensor of shape (N, K) where N is the batch size and K is the
              length of the sequence
     return:
-        mask: a tensor of shape (N, K, K) where N is the batch sieze and K is the
+        mask: a tensor of shape (N, K, K) where N is the batch size and K is the
               length of the sequence
 
     Given a sequence of length K, we want to mask the weights inside the function
@@ -772,8 +809,16 @@ def get_subsequent_mask(seq):
     # False where we don't have to apply the mask.                                #
     #                                                                             #
     ###############################################################################
-    # Replace "pass" statement with your code
-    pass
+    N, K = seq.shape 
+    
+    # 1. Create the 2D causal mask for a single sequence of length K
+    # We want True above the diagonal
+    # shape: (K, K) -> (3, 3)
+    single_seq_mask = torch.triu(torch.ones((K, K), device=seq.device), diagonal=1).bool()
+    
+    # 2. Expand to match the batch size N
+    # shape: (N, K, K) -> (4, 3, 3)
+    mask = single_seq_mask.unsqueeze(0).expand(N, -1, -1)
     ##############################################################################
     #               END OF YOUR CODE                                             #
     ##############################################################################
@@ -856,9 +901,32 @@ class DecoderBlock(nn.Module):
         # 3. LayerNormalization layers after each of the block                   #
         # 4. Dropout after each of the block                                     #
         ##########################################################################
-        pass
-        # Replace "pass" statement with your code
+        # 1. Two MultiHeadAttention layers (self-attention and cross-attention)
+        head_dim = emb_dim // num_heads
+        self.attention_self = MultiHeadAttention(
+            num_heads=num_heads,
+            dim_in=emb_dim,
+            dim_out=head_dim
+        )
+        self.attention_cross = MultiHeadAttention(
+            num_heads=num_heads,
+            dim_in=emb_dim,
+            dim_out=head_dim
+        )
 
+        # 2. FeedForward block
+        self.feed_forward = FeedForwardBlock(
+            inp_dim=emb_dim,
+            hidden_dim_feedforward=feedforward_dim
+        )
+
+        # 3. Three LayerNormalization layers
+        self.norm1 = LayerNormalization(emb_dim)
+        self.norm2 = LayerNormalization(emb_dim)
+        self.norm3 = LayerNormalization(emb_dim)
+
+        # 4. Dropout layer
+        self.dropout = nn.Dropout(dropout)
         ##########################################################################
         #               END OF YOUR CODE                                         #
         ##########################################################################
@@ -887,8 +955,38 @@ class DecoderBlock(nn.Module):
         # Attention is All you need paper to implenment the rest of the forward  #
         # pass. Don't forget to apply the residual connections for different layers.
         ##########################################################################
-        # Replace "pass" statement with your code
-        pass
+        '''
+        # 1. Masked MultiHead Self-Attention (with mask)
+        out1 = self.attention_self(dec_inp, dec_inp, dec_inp, mask)
+        out1 = self.dropout(self.norm1(dec_inp + out1))
+
+        # 2. Cross MultiHead Attention (query: out1, key/value: enc_inp, no mask)
+        out2 = self.attention_cross(out1, enc_inp, enc_inp)
+        out2 = self.dropout(self.norm2(out1 + out2))
+
+        # 3. FeedForward block
+        out3 = self.feed_forward(out2)
+        y = self.dropout(self.norm3(out2 + out3))
+        '''
+        # 1. inp - masked_multi_head_attention - out1
+        # dec_inp is our 'inp'
+        out1 = self.attention_self(dec_inp, dec_inp, dec_inp, mask)
+
+        # 2. layer_norm(inp + out1) - dropout - out2
+        out2 = self.dropout(self.norm1(dec_inp + out1))
+
+        # 3. (out2 and enc_out) - multi_head_attention - out3
+        # Query comes from decoder (out2), Key/Value come from encoder (enc_inp)
+        out3 = self.attention_cross(query=out2, key=enc_inp, value=enc_inp)
+
+        # 4. layer_norm(out3 + out2) - dropout - out4
+        out4 = self.dropout(self.norm2(out3 + out2))
+
+        # 5. feed_forward - out5
+        out5 = self.feed_forward(out4)
+
+        # 6. layer_norm(out5 + out4) - dropout - out
+        y = self.dropout(self.norm3(out5 + out4))
         ##########################################################################
         #               END OF YOUR CODE                                         #
         ##########################################################################
