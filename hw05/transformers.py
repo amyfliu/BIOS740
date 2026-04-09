@@ -1100,7 +1100,12 @@ def position_encoding_simple(K: int, M: int) -> Tensor:
     # times to create a tensor of the required output shape                      #
     ##############################################################################
     # Replace "pass" statement with your code
-    pass
+    # Create a 1D tensor of length K with values n/K for n in 0..K-1
+    pos = torch.arange(K, dtype=torch.float32) / K  # shape: (K,)
+    # Repeat this vector M times along the embedding dimension to get (K, M)
+    y = pos.unsqueeze(1).repeat(1, M)  # shape: (K, M)
+    # Add batch dimension to get (1, K, M)
+    y = y.unsqueeze(0)
     ##############################################################################
     #               END OF YOUR CODE                                             #
     ##############################################################################
@@ -1128,8 +1133,23 @@ def position_encoding_sinusoid(K: int, M: int) -> Tensor:
     # alternating sines and cosines along the embedding dimension M.             #
     ##############################################################################
     # Replace "pass" statement with your code
-    # Initialize the tensor with zeros
-    pass
+
+    # Initialize the PE matrix
+    pe = torch.zeros(K, M)
+    
+    # Create a vector of positions (0, 1, 2, ..., K-1)
+    # shape (K, 1)
+    position = torch.arange(0, K, dtype=torch.float).unsqueeze(1)
+    
+    # In your test case, there is NO division term (or div_term = 1)
+    # Applying sine to even indices
+    pe[:, 0::2] = torch.sin(position)
+    
+    # Applying cosine to odd indices
+    pe[:, 1::2] = torch.cos(position)
+    
+    # Reshape to (1, K, M)
+    y = pe.unsqueeze(0)
     ##############################################################################
     #               END OF YOUR CODE                                             #
     ##############################################################################
