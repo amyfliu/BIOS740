@@ -1254,7 +1254,38 @@ class Transformer(nn.Module):
         # Hint: the mask shape will depend on the Tensor ans_b
         ##########################################################################
         # Replace "pass" statement with your code
-        pass
+        
+        # 1. Prepare Embeddings + Positional Encodings (already done in your snippet)
+        q_emb = self.emb_layer(ques_b)
+        a_emb = self.emb_layer(ans_b)
+        
+        q_emb_inp = q_emb + ques_pos
+        # Note: We take all but the last token for teacher forcing
+        a_emb_inp = a_emb[:, :-1] + ans_pos[:, :-1]
+        
+        dec_out = None
+        
+        ##########################################################################
+        # 1. Pass the question through the encoder
+        # enc_output shape: (N, K, M)
+        enc_output = self.encoder(q_emb_inp)
+
+        # 2. Construct the causal mask for the decoder
+        # We use ans_b[:, :-1] because that's the sequence length the decoder sees
+        # mask shape: (N, O-1, O-1)
+        subsequent_mask = get_subsequent_mask(ans_b[:, :-1])
+
+        # 3. Pass through the decoder
+        # Inputs: target embeddings, encoder output, and the causal mask
+        # dec_out shape: (N * (O-1), vocab_len)
+        dec_out = self.decoder(a_emb_inp, enc_output, subsequent_mask)
+
+        # dec_out currently has shape (N, K, V) -> (16, 4, 16)
+        N, K, V = dec_out.shape
+        
+        # Flatten N and K into a single dimension
+        # Shape becomes (N * K, V) -> (64, 16)
+        dec_out = dec_out.view(N * K, V)
         ##########################################################################
         #               END OF YOUR CODE                                         #
         ##########################################################################
