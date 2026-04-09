@@ -110,15 +110,29 @@ def val(model, dataloader, loss_func, batch_size, device=torch.device("cpu")):
 
 def inference(model, inp_exp, inp_exp_pos, out_pos_exp, out_seq_len, device):
     model.eval()
+    '''
     if device =="cuda":
         y_init = torch.LongTensor([14]).unsqueeze(0).cuda().view(1, 1)
     else:
         y_init = torch.LongTensor([14]).unsqueeze(0).view(1, 1)
+    '''
+
+    '''
+    NOTE: PyTorch cannot perform operations (like embedding lookups or matrix multiplication)
+    across different devices because the memory spaces are physically separate! Make sure that the model and 
+    all tensors (like y_init) are on the same device (CPU or GPU) before performing any operations. 
+    You can move tensors to the same device as the model using .to(device) method. For example, if your model 
+    is on GPU, you should also move y_init to GPU using y_init = y_init.to(device). This way, all computations 
+    will be performed on the same device without any errors.
+    '''
+    y_init = torch.LongTensor([14]).view(1, 1).to(device)
 
     ques_emb = model.emb_layer(inp_exp)
     q_emb_inp = ques_emb + inp_exp_pos
     enc_out = model.encoder(q_emb_inp)
     for i in range(out_seq_len - 1):
+        #print(f"Model device: {next(model.parameters()).device}")
+        #print(f"y_init device: {y_init.device}")
         ans_emb = model.emb_layer(y_init)
         a_emb_inp = ans_emb + out_pos_exp[:, : y_init.shape[1], :]
         dec_out = model.decoder(a_emb_inp, enc_out, None)

@@ -15,3 +15,5 @@ In this notebook, you will learn how to implement an Encoder-Decoder based Trans
    - Decoder Block
 3. Part III (Data Loading): We will use the preprocessing functions in part I and the positional encoding module to construct the Dataloader.
 4. Part IV (Train a model): In the last part we will look at how to fit the implemented Transformer model to the toy dataset
+
+**NOTE:** I had to made a minor edit to the `a5_helper.py` file (`def inference()`) to ensure that all tensors are on the save device. PyTorch cannot perform operations (like embedding lookups or matrix multiplication) across different devices because the memory spaces are physically separate. Thus, I had make sure that the model and all tensors (like y_init) are on the same device (CPU or GPU) before performing any operations. Here I moved the tensors to the same device as the model using .to(device) method. This way, all computations will be performed on the same device without any errors.
