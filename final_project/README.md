@@ -31,6 +31,9 @@ Downloaded the spaCy English model (en_core_web_sm)
 Downloaded SpERT's example CoNLL04 dataset and pretrained models
 Successfully ran python ./spert.py predict on the example data
 
+**STEPS:**
+
+Step 1. 
 **convert_to_spert.py**: converts the raw ADKG/MDKG data into JSON format that SpERT can read.
 1. Text -> tokens: Convert text string to a pre-tokenized list
 2. Character offsets -> token indicies: Entities use character-level positions but we want token-level positions
@@ -48,3 +51,22 @@ With NEC: micro F1 = 39.75%
 Interpretation: ~4% gap means some relations are being found correctly but with WRONG entity types attached; helps us understand where errors come from - is the model failing at finding relations, or at classifying the entity types involved?
 
 **REMEBER TO RUN FILES FROM THE ENVIRONMENT 'bios740_final'**
+
+Step 2.
+- Train ADKG on train dataset, evaluate on dev dataset
+> python ./spert.py train --config configs/adkg_train.conf 2>&1 | tee logs/adkg_train_log.txt
+
+Step 3. 
+- Evaluate the ADKG model on **test** dataset
+> python ./spert.py eval --config configs/adkg_eval.conf
+
+**run.sh**: run the script to run the  model for adkg and mdkg
+
+# Make it executable
+chmod +x run.sh
+
+# Run for ADKG
+bash run.sh adkg
+
+# Run for MDKG
+bash run.sh mdkg
