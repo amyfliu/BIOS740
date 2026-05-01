@@ -1,0 +1,28 @@
+Loading data ...
+
+                       DATASET OVERVIEW                       
+--------------------------------------------------------------
+Metric                                      ADKG         MDKG
+--------------------------------------------------------------
+Total sentences                             8031         6678
+  train                                     5605         4825
+  dev                                       1206          941
+  test                                      1220          912
+Total entities                             20859        28660
+Total relations                             5496        10560
+Sentences with relations                    2805         3597
+Sentences with no entities                  1210          278
+Avg entities / sentence                     2.60         4.29
+Avg relations / sentence                    0.68         1.58
+Avg entity span (chars)                     12.7         15.9
+Max entity span (chars)                      132          103
+Entity type count                              6            9
+Relation type count                            8            9
+--------------------------------------------------------------
+
+Saved → figures/fig1_entity_distributions.png
+Saved → figures/fig2_relation_distributions.png
+Saved → figures/fig3_top_relation_pairs.png
+Saved → figures/fig4_density_comparison.png
+
+ All figures saved to ./figures/
