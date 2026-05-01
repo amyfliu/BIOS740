@@ -1,0 +1,239 @@
+======================================================================
+  EDGE CASE ANALYSIS — ADKG
+======================================================================
+
+[1] ENTITY SUMMARY
+----------------------------------------------------------------------
+  Gold entities:          3149
+  Predicted entities:     3119
+  Exact matches:          2209
+  Near misses (±1 token): 156
+  Missed (false neg):     754
+  Spurious (false pos):   689
+
+[2] NEAR-MISS ENTITIES (showing first 10)
+----------------------------------------------------------------------
+  Type:  drug
+  Gold:  norisoprenoids),  (23, 24)
+  Pred:  C13 norisoprenoids),  (22, 24)
+  Text:  In the present study, we aimed to screen the in vitro inhibitory activity of 80 types of aroma compo...
+
+  Type:  gene
+  Gold:  Endogenous Abeta peptide  (0, 3)
+  Pred:  Abeta peptide  (1, 3)
+  Text:  Endogenous Abeta peptide promote Abeta oligomerization tendency of spiked synthetic Abeta in Alzheim...
+
+  Type:  disease
+  Gold:  age-associated dementia.  (9, 11)
+  Pred:  dementia.  (10, 11)
+  Text:  Alzheimer's disease (AD) is the most common form of age-associated dementia....
+
+  Type:  disease
+  Gold:  non-AD  (35, 36)
+  Pred:  non-AD neurological conditions.  (35, 38)
+  Text:  Here, we clarified the molecular sizes of oligomers that can be detected by the MDS and investigated...
+
+  Type:  disease
+  Gold:  neurological conditions.  (36, 38)
+  Pred:  non-AD neurological conditions.  (35, 38)
+  Text:  Here, we clarified the molecular sizes of oligomers that can be detected by the MDS and investigated...
+
+  Type:  gene
+  Gold:  endogenous Abeta  (20, 22)
+  Pred:  Abeta  (21, 22)
+  Text:  Also, an amplified luminescent proximity homogeneous assay-linked immunoassay (AlphaLISA) was used t...
+
+  Type:  gene
+  Gold:  endogenous Abeta  (26, 28)
+  Pred:  Abeta  (27, 28)
+  Text:  In addition, the absence of the MDS signals in Abeta-depleted plasma confirmed that the increased ol...
+
+  Type:  gene
+  Gold:  APOE epsilon4  (1, 3)
+  Pred:  APOE epsilon4 allele  (1, 4)
+  Text:  The APOE epsilon4 allele increases the risk for sporadic Alzheimer's disease and modifies brain acti...
+
+  Type:  gene
+  Gold:  APOE  (8, 9)
+  Pred:  APOE variant  (8, 10)
+  Text:  Using multiple regression models, we identified interactions of APOE variant and age in bilateral hi...
+
+  Type:  drug
+  Gold:  ketone  (16, 17)
+  Pred:  ketone bodies  (16, 18)
+  Text:  Next, to elucidate whether lauric acid can activate ketogenesis in astrocytes with the capacity to g...
+
+
+[3] MISSED ENTITIES — by type
+----------------------------------------------------------------------
+  gene                 174
+  method               161
+  drug                 152
+  other                138
+  disease              122
+  mutation             7
+
+[4] RELATION SUMMARY
+----------------------------------------------------------------------
+  Gold relations:         769
+  Predicted relations:    793
+  Exact matches:          284
+  Confused types:         33
+  Long-range total:       185
+  Long-range correct:     35
+  Long-range accuracy:    18.9%
+  Failed long-range:      145
+
+[5] CONFUSED RELATION TYPES (showing first 10)
+----------------------------------------------------------------------
+  Gold:  abbreviation_for
+  Pred:  hyponym_of
+  Head:  (IGF-1)
+  Tail:  insulin-like growth factor
+  Dist:  2.0 tokens
+  Text:  Neurogenesis that provides neuronal plasticity is impaired in the diabetic brain, while insulin resi...
+
+  Gold:  risk_factor_of
+  Pred:  treatment_for
+  Head:  Abeta 1-42
+  Tail:  amyloid deposition
+  Dist:  12.0 tokens
+  Text:  Intracisternal infusion with Abeta 1-42 by an osmotic pump caused cognitive deficits, an increase in...
+
+  Gold:  hyponym_of
+  Pred:  treatment_for
+  Head:  genistein-O-alkylamines derivatives
+  Tail:  multifunctional agents
+  Dist:  3.0 tokens
+  Text:  Development of genistein-O-alkylamines derivatives as multifunctional agents for the treatment of Al...
+
+  Gold:  hyponym_of
+  Pred:  treatment_for
+  Head:  multi-target-directed ligands
+  Tail:  multifunctional agents
+  Dist:  8.0 tokens
+  Text:  The multi-target-directed ligands have been regarded as the promising multifunctional agents for the...
+
+  Gold:  hyponym_of
+  Pred:  treatment_for
+  Head:  compound 7d
+  Tail:  multifunctional agent
+  Dist:  5.0 tokens
+  Text:  Therefore, compound 7d was a promising multifunctional agent for the development of anti-AD drugs....
+
+  Gold:  treatment_for
+  Pred:  risk_factor_of
+  Head:  cholinergic transmission
+  Tail:  AD.
+  Dist:  9.5 tokens
+  Text:  It has been demonstrated that loss of cholinergic transmission is one of the most significant causes...
+
+  Gold:  risk_factor_of
+  Pred:  hyponym_of
+  Head:  alpha-synuclein,
+  Tail:  ND-causing
+  Dist:  4.0 tokens
+  Text:  This network reveals interconnectivity across diseases and links many known ND-causing proteins, suc...
+
+  Gold:  risk_factor_of
+  Pred:  hyponym_of
+  Head:  TDP-43,
+  Tail:  ND-causing
+  Dist:  5.0 tokens
+  Text:  This network reveals interconnectivity across diseases and links many known ND-causing proteins, suc...
+
+  Gold:  risk_factor_of
+  Pred:  hyponym_of
+  Head:  ATXN1,
+  Tail:  ND-causing
+  Dist:  7.0 tokens
+  Text:  This network reveals interconnectivity across diseases and links many known ND-causing proteins, suc...
+
+  Gold:  treatment_target_for
+  Pred:  treatment_for
+  Head:  oligomer-specific inhibitors
+  Tail:  AD
+  Dist:  2.5 tokens
+  Text:  These findings may aid the development of oligomer-specific inhibitors for AD therapy....
+
+
+[6] RELATION CONFUSION (gold → predicted)
+----------------------------------------------------------------------
+  hyponym_of                → abbreviation_for          (6)
+  hyponym_of                → treatment_for             (5)
+  treatment_target_for      → treatment_for             (4)
+  treatment_for             → risk_factor_of            (3)
+  risk_factor_of            → hyponym_of                (3)
+  abbreviation_for          → hyponym_of                (2)
+  risk_factor_of            → treatment_for             (1)
+  characteristic_of         → abbreviation_for          (1)
+  help_diagnose             → abbreviation_for          (1)
+  characteristic_of         → help_diagnose             (1)
+  risk_factor_of            → characteristic_of         (1)
+  treatment_for             → help_diagnose             (1)
+  treatment_for             → treatment_target_for      (1)
+  help_diagnose             → hyponym_of                (1)
+  hyponym_of                → associated_with           (1)
+
+[7] FAILED LONG-RANGE RELATIONS (showing first 10)
+----------------------------------------------------------------------
+  Type:  risk_factor_of
+  Head:  body mass index,
+  Tail:  Alzheimer's dementia
+  Dist:  16.5 tokens
+  Text:  BACKGROUND: Previous studies have shown that copy number variation (CNV) in the alpha (alpha)-amylas...
+
+  Type:  risk_factor_of
+  Head:  insulin resistance,
+  Tail:  Alzheimer's dementia
+  Dist:  14.0 tokens
+  Text:  BACKGROUND: Previous studies have shown that copy number variation (CNV) in the alpha (alpha)-amylas...
+
+  Type:  risk_factor_of
+  Head:  blood glucose levels,
+  Tail:  Alzheimer's dementia
+  Dist:  10.5 tokens
+  Text:  BACKGROUND: Previous studies have shown that copy number variation (CNV) in the alpha (alpha)-amylas...
+
+  Type:  treatment_for
+  Head:  (BACE1)
+  Tail:  Alzheimer's disease.
+  Dist:  10.5 tokens
+  Text:  Inhibition of beta-secretase (BACE1) is currently regarded as the leading treatment strategy for Alz...
+
+  Type:  characteristic_of
+  Head:  production and deposition of the beta-amyloid peptide
+  Tail:  AD.
+  Dist:  15.0 tokens
+  Text:  Several studies have predicted that AD is caused by the production and deposition of the beta-amyloi...
+
+  Type:  treatment_for
+  Head:  walnuts
+  Tail:  AD.
+  Dist:  28.0 tokens
+  Text:  Our findings indicate that walnuts can reduce oxidative stress, not only by scavenging free radicals...
+
+  Type:  associated_with
+  Head:  Cognitive functioning
+  Tail:  neuropsychiatric
+  Dist:  19.5 tokens
+  Text:  Cognitive functioning is a significant predictor of decisional capacity, but there is a dearth of in...
+
+  Type:  associated_with
+  Head:  decisional capacity
+  Tail:  neuropsychiatric
+  Dist:  14.5 tokens
+  Text:  We examined the rates of decisional capacity associated with two types of research protocols, and th...
+
+  Type:  associated_with
+  Head:  decisional capacity
+  Tail:  other participant characteristics.
+  Dist:  18.5 tokens
+  Text:  We examined the rates of decisional capacity associated with two types of research protocols, and th...
+
+  Type:  associated_with
+  Head:  cognitive deficits
+  Tail:  neuropsychiatric
+  Dist:  14.5 tokens
+  Text:  Age, education, and severity of cognitive deficits were associated with incapable status; there were...
+
