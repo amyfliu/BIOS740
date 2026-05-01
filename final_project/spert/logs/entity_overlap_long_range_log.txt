@@ -1,0 +1,4 @@
+ADKG: 135 overlapping entity pairs out of 37026 pairs
+MDKG: 221 overlapping entity pairs out of 78011 pairs
+ADKG: avg token distance=7.1, max=48, >10 tokens: 1254 (22.8%)
+MDKG: avg token distance=8.9, max=140, >10 tokens: 3019 (28.6%)
