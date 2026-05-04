@@ -134,17 +134,6 @@ python edge_case_analysis.py
 
 ---
 
-## Results Summary
-
-| Dataset | NER Micro F1 | Rel Micro F1 (NEC) |
-|---|---|---|
-| ADKG (single) | 70.87% | 40.21% |
-| MDKG (single) | 81.24% | 49.63% |
-| ADKG (combined) | 67.84% | 39.56% |
-| MDKG (combined) | 79.47% | 49.15% |
-
----
-
 ## Dependencies
 
 - Python 3.11
