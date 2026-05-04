@@ -1,0 +1,104 @@
+--------------------------------------------------
+Config:
+{'label': 'combined_eval_adkg', 'model_type': 'spert', 'model_path': 'data/save/combined/best_model', 'tokenizer_path': 'allenai/scibert_scivocab_cased', 'dataset_path': 'data/datasets/combined/adkg_test.json', 'types_path': 'data/datasets/combined/combined_types.json', 'eval_batch_size': '8', 'rel_filter_threshold': '0.4', 'size_embedding': '25', 'prop_drop': '0.1', 'max_span_size': '10', 'sampling_processes': '4', 'max_pairs': '1000', 'store_predictions': 'true', 'store_examples': 'true', 'log_path': 'data/log/combined/'}
+Repeat 1 times
+--------------------------------------------------
+Iteration 0
+--------------------------------------------------
+/home/amyfliu/miniconda3/envs/bios740_final/lib/python3.11/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+2026-05-04 13:02:51,031 [MainThread  ] [INFO ]  Dataset: data/datasets/combined/adkg_test.json
+2026-05-04 13:02:51,031 [MainThread  ] [INFO ]  Model: spert
+Parse dataset 'test':   0%|          | 0/1220 [00:00<?, ?it/s]Parse dataset 'test':   8%|▊         | 97/1220 [00:00<00:01, 964.54it/s]Parse dataset 'test':  16%|█▋        | 201/1220 [00:00<00:01, 1007.77it/s]Parse dataset 'test':  25%|██▍       | 302/1220 [00:00<00:00, 995.68it/s] Parse dataset 'test':  33%|███▎      | 402/1220 [00:00<00:00, 951.33it/s]Parse dataset 'test':  41%|████      | 502/1220 [00:00<00:00, 966.83it/s]Parse dataset 'test':  49%|████▉     | 599/1220 [00:00<00:00, 956.00it/s]Parse dataset 'test':  57%|█████▋    | 695/1220 [00:00<00:00, 941.77it/s]Parse dataset 'test':  65%|██████▌   | 796/1220 [00:00<00:00, 961.34it/s]Parse dataset 'test':  76%|███████▌  | 924/1220 [00:00<00:00, 1058.62it/s]Parse dataset 'test':  89%|████████▉ | 1090/1220 [00:01<00:00, 1240.09it/s]Parse dataset 'test': 100%|██████████| 1220/1220 [00:01<00:00, 1094.72it/s]
+2026-05-04 13:02:52,184 [MainThread  ] [INFO ]  Relation type count: 11
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  Entity type count: 12
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  Entities:
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  No Entity=0
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  Health_factors=1
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  disease=2
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  drug=3
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  gene=4
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  method=5
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  mutation=6
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  other=7
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  physiology=8
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  region=9
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  signs=10
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  symptom=11
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  Relations:
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  No Relation=0
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  abbreviation_for=1
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  associated_with=2
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  characteristic_of=3
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  help_diagnose=4
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  hyponym_of=5
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  located_in=6
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  occurs_in=7
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  risk_factor_of=8
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  treatment_for=9
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  treatment_target_for=10
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  Dataset: test
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  Document count: 1220
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  Relation count: 769
+2026-05-04 13:02:52,185 [MainThread  ] [INFO ]  Entity count: 3149
+2026-05-04 13:02:54,086 [MainThread  ] [INFO ]  Evaluate: test
+Evaluate epoch 0:   0%|          | 0/153 [00:00<?, ?it/s]Evaluate epoch 0:   1%|          | 1/153 [00:12<32:30, 12.84s/it]Evaluate epoch 0:   2%|▏         | 3/153 [00:12<08:24,  3.37s/it]Evaluate epoch 0:   4%|▍         | 6/153 [00:13<03:14,  1.33s/it]Evaluate epoch 0:   7%|▋         | 10/153 [00:13<01:29,  1.59it/s]Evaluate epoch 0:   9%|▉         | 14/153 [00:13<00:50,  2.73it/s]Evaluate epoch 0:  12%|█▏        | 18/153 [00:13<00:31,  4.24it/s]Evaluate epoch 0:  14%|█▍        | 22/153 [00:13<00:21,  6.18it/s]Evaluate epoch 0:  18%|█▊        | 27/153 [00:13<00:13,  9.19it/s]Evaluate epoch 0:  20%|██        | 31/153 [00:13<00:10, 11.98it/s]Evaluate epoch 0:  23%|██▎       | 35/153 [00:13<00:07, 15.00it/s]Evaluate epoch 0:  25%|██▌       | 39/153 [00:13<00:06, 18.18it/s]Evaluate epoch 0:  28%|██▊       | 43/153 [00:14<00:05, 21.27it/s]Evaluate epoch 0:  31%|███       | 47/153 [00:14<00:08, 12.14it/s]Evaluate epoch 0:  34%|███▍      | 52/153 [00:14<00:06, 16.27it/s]Evaluate epoch 0:  37%|███▋      | 56/153 [00:14<00:05, 19.22it/s]Evaluate epoch 0:  39%|███▉      | 60/153 [00:15<00:04, 21.28it/s]Evaluate epoch 0:  42%|████▏     | 65/153 [00:15<00:03, 25.24it/s]Evaluate epoch 0:  46%|████▌     | 70/153 [00:15<00:02, 28.37it/s]Evaluate epoch 0:  48%|████▊     | 74/153 [00:15<00:02, 30.54it/s]Evaluate epoch 0:  52%|█████▏    | 79/153 [00:15<00:02, 33.80it/s]Evaluate epoch 0:  54%|█████▍    | 83/153 [00:15<00:02, 32.93it/s]Evaluate epoch 0:  57%|█████▋    | 87/153 [00:15<00:01, 34.36it/s]Evaluate epoch 0:  59%|█████▉    | 91/153 [00:15<00:01, 34.67it/s]Evaluate epoch 0:  62%|██████▏   | 95/153 [00:16<00:01, 34.44it/s]Evaluate epoch 0:  65%|██████▍   | 99/153 [00:16<00:01, 32.98it/s]Evaluate epoch 0:  67%|██████▋   | 103/153 [00:16<00:01, 31.34it/s]Evaluate epoch 0:  70%|██████▉   | 107/153 [00:16<00:01, 32.31it/s]Evaluate epoch 0:  73%|███████▎  | 111/153 [00:16<00:01, 32.39it/s]Evaluate epoch 0:  76%|███████▌  | 116/153 [00:16<00:01, 34.52it/s]Evaluate epoch 0:  78%|███████▊  | 120/153 [00:16<00:00, 34.71it/s]Evaluate epoch 0:  81%|████████  | 124/153 [00:16<00:00, 36.02it/s]Evaluate epoch 0:  84%|████████▎ | 128/153 [00:17<00:00, 33.77it/s]Evaluate epoch 0:  87%|████████▋ | 133/153 [00:17<00:00, 35.79it/s]Evaluate epoch 0:  90%|████████▉ | 137/153 [00:17<00:00, 33.40it/s]Evaluate epoch 0:  92%|█████████▏| 141/153 [00:17<00:00, 32.79it/s]Evaluate epoch 0:  95%|█████████▍| 145/153 [00:17<00:00, 32.25it/s]Evaluate epoch 0:  97%|█████████▋| 149/153 [00:17<00:00, 33.06it/s]Evaluate epoch 0: 100%|██████████| 153/153 [00:17<00:00, 34.03it/s]Evaluate epoch 0: 100%|██████████| 153/153 [00:18<00:00,  8.23it/s]
+Evaluation
+
+--- Entities (named entity recognition (NER)) ---
+An entity is considered correct if the entity type and span is predicted correctly
+
+                type    precision       recall     f1-score      support
+                GENE        69.47        70.69        70.07          795
+                METH        43.07        57.39        49.21          406
+                DRUG        70.67        64.02        67.18          478
+                SIGN         0.00         0.00         0.00            0
+                PHYS         0.00         0.00         0.00            0
+                MUTA        68.09        72.73        70.33           44
+                OTHE        33.33        27.36        30.05          201
+                HEAL         0.00         0.00         0.00            0
+                SYMP         0.00         0.00         0.00            0
+                REGI         0.00         0.00         0.00            0
+                DISE        80.53        86.15        83.25         1191
+
+               micro        64.89        71.08        67.84         3115
+               macro        33.20        34.39        33.64         3115
+
+--- Relations ---
+
+Without named entity classification (NEC)
+A relation is considered correct if the relation type and the spans of the two related entities are predicted correctly (entity type is not considered)
+
+                type    precision       recall     f1-score      support
+                LOCA         0.00         0.00         0.00            0
+                TREA        33.33        40.51        36.57           79
+                HYPO        35.54        46.24        40.19           93
+                ASSO        12.12        12.66        12.38          158
+                ABBR        72.62        88.72        79.86          266
+                HELP        17.54        19.23        18.35           52
+                OCCU         0.00         0.00         0.00            0
+                RISK        18.99        25.42        21.74           59
+                TREA         0.00         0.00         0.00            9
+                CHAR        38.71        25.00        30.38           48
+
+               micro        41.39        48.17        44.53          764
+               macro        22.88        25.78        23.95          764
+
+With named entity classification (NEC)
+A relation is considered correct if the relation type and the two related entities are predicted correctly (in span and entity type)
+
+                type    precision       recall     f1-score      support
+                LOCA         0.00         0.00         0.00            0
+                TREA        26.04        31.65        28.57           79
+                HYPO        35.54        46.24        40.19           93
+                ASSO         9.09         9.49         9.29          158
+                ABBR        64.62        78.95        71.07          266
+                HELP        17.54        19.23        18.35           52
+                OCCU         0.00         0.00         0.00            0
+                RISK        16.46        22.03        18.84           59
+                TREA         0.00         0.00         0.00            9
+                CHAR        35.48        22.92        27.85           48
+
+               micro        36.78        42.80        39.56          764
+               macro        20.48        23.05        21.41          764
+2026-05-04 13:03:20,153 [MainThread  ] [INFO ]  Logged in: data/log/combined/combined_eval_adkg/2026-05-04_13:02:50.434555

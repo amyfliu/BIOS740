@@ -1,0 +1,102 @@
+--------------------------------------------------
+Config:
+{'label': 'combined_eval_mdkg', 'model_type': 'spert', 'model_path': 'data/save/combined/best_model', 'tokenizer_path': 'allenai/scibert_scivocab_cased', 'dataset_path': 'data/datasets/combined/mdkg_test.json', 'types_path': 'data/datasets/combined/combined_types.json', 'eval_batch_size': '8', 'rel_filter_threshold': '0.4', 'size_embedding': '25', 'prop_drop': '0.1', 'max_span_size': '10', 'sampling_processes': '4', 'max_pairs': '1000', 'store_predictions': 'true', 'store_examples': 'true', 'log_path': 'data/log/combined/'}
+Repeat 1 times
+--------------------------------------------------
+Iteration 0
+--------------------------------------------------
+/home/amyfliu/miniconda3/envs/bios740_final/lib/python3.11/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+2026-05-04 13:03:30,664 [MainThread  ] [INFO ]  Dataset: data/datasets/combined/mdkg_test.json
+2026-05-04 13:03:30,664 [MainThread  ] [INFO ]  Model: spert
+Parse dataset 'test':   0%|          | 0/912 [00:00<?, ?it/s]Parse dataset 'test':  10%|▉         | 87/912 [00:00<00:00, 862.41it/s]Parse dataset 'test':  19%|█▉        | 174/912 [00:00<00:00, 794.78it/s]Parse dataset 'test':  28%|██▊       | 255/912 [00:00<00:00, 800.32it/s]Parse dataset 'test':  38%|███▊      | 342/912 [00:00<00:00, 822.82it/s]Parse dataset 'test':  47%|████▋     | 432/912 [00:00<00:00, 847.18it/s]Parse dataset 'test':  58%|█████▊    | 530/912 [00:00<00:00, 888.13it/s]Parse dataset 'test':  68%|██████▊   | 619/912 [00:00<00:00, 863.01it/s]Parse dataset 'test':  77%|███████▋  | 706/912 [00:00<00:00, 843.77it/s]Parse dataset 'test':  87%|████████▋ | 792/912 [00:00<00:00, 844.93it/s]Parse dataset 'test':  96%|█████████▌| 877/912 [00:01<00:00, 836.82it/s]Parse dataset 'test': 100%|██████████| 912/912 [00:01<00:00, 842.24it/s]
+2026-05-04 13:03:31,766 [MainThread  ] [INFO ]  Relation type count: 11
+2026-05-04 13:03:31,766 [MainThread  ] [INFO ]  Entity type count: 12
+2026-05-04 13:03:31,766 [MainThread  ] [INFO ]  Entities:
+2026-05-04 13:03:31,767 [MainThread  ] [INFO ]  No Entity=0
+2026-05-04 13:03:31,767 [MainThread  ] [INFO ]  Health_factors=1
+2026-05-04 13:03:31,767 [MainThread  ] [INFO ]  disease=2
+2026-05-04 13:03:31,767 [MainThread  ] [INFO ]  drug=3
+2026-05-04 13:03:31,767 [MainThread  ] [INFO ]  gene=4
+2026-05-04 13:03:31,767 [MainThread  ] [INFO ]  method=5
+2026-05-04 13:03:31,767 [MainThread  ] [INFO ]  mutation=6
+2026-05-04 13:03:31,767 [MainThread  ] [INFO ]  other=7
+2026-05-04 13:03:31,767 [MainThread  ] [INFO ]  physiology=8
+2026-05-04 13:03:31,767 [MainThread  ] [INFO ]  region=9
+2026-05-04 13:03:31,767 [MainThread  ] [INFO ]  signs=10
+2026-05-04 13:03:31,768 [MainThread  ] [INFO ]  symptom=11
+2026-05-04 13:03:31,768 [MainThread  ] [INFO ]  Relations:
+2026-05-04 13:03:31,768 [MainThread  ] [INFO ]  No Relation=0
+2026-05-04 13:03:31,768 [MainThread  ] [INFO ]  abbreviation_for=1
+2026-05-04 13:03:31,768 [MainThread  ] [INFO ]  associated_with=2
+2026-05-04 13:03:31,768 [MainThread  ] [INFO ]  characteristic_of=3
+2026-05-04 13:03:31,768 [MainThread  ] [INFO ]  help_diagnose=4
+2026-05-04 13:03:31,768 [MainThread  ] [INFO ]  hyponym_of=5
+2026-05-04 13:03:31,768 [MainThread  ] [INFO ]  located_in=6
+2026-05-04 13:03:31,768 [MainThread  ] [INFO ]  occurs_in=7
+2026-05-04 13:03:31,769 [MainThread  ] [INFO ]  risk_factor_of=8
+2026-05-04 13:03:31,769 [MainThread  ] [INFO ]  treatment_for=9
+2026-05-04 13:03:31,769 [MainThread  ] [INFO ]  treatment_target_for=10
+2026-05-04 13:03:31,769 [MainThread  ] [INFO ]  Dataset: test
+2026-05-04 13:03:31,769 [MainThread  ] [INFO ]  Document count: 912
+2026-05-04 13:03:31,769 [MainThread  ] [INFO ]  Relation count: 1431
+2026-05-04 13:03:31,769 [MainThread  ] [INFO ]  Entity count: 3960
+2026-05-04 13:03:33,600 [MainThread  ] [INFO ]  Evaluate: test
+Evaluate epoch 0:   0%|          | 0/114 [00:00<?, ?it/s]Evaluate epoch 0:   1%|          | 1/114 [00:13<24:58, 13.26s/it]Evaluate epoch 0:   4%|▍         | 5/114 [00:13<03:38,  2.00s/it]Evaluate epoch 0:   8%|▊         | 9/114 [00:13<01:36,  1.09it/s]Evaluate epoch 0:  11%|█▏        | 13/114 [00:13<00:53,  1.88it/s]Evaluate epoch 0:  15%|█▍        | 17/114 [00:13<00:33,  2.86it/s]Evaluate epoch 0:  18%|█▊        | 20/114 [00:14<00:24,  3.87it/s]Evaluate epoch 0:  21%|██        | 24/114 [00:14<00:15,  5.67it/s]Evaluate epoch 0:  24%|██▎       | 27/114 [00:14<00:11,  7.28it/s]Evaluate epoch 0:  27%|██▋       | 31/114 [00:14<00:08,  9.94it/s]Evaluate epoch 0:  30%|██▉       | 34/114 [00:14<00:06, 11.77it/s]Evaluate epoch 0:  32%|███▏      | 37/114 [00:14<00:05, 13.96it/s]Evaluate epoch 0:  35%|███▌      | 40/114 [00:14<00:04, 16.15it/s]Evaluate epoch 0:  38%|███▊      | 43/114 [00:14<00:03, 18.20it/s]Evaluate epoch 0:  40%|████      | 46/114 [00:14<00:03, 19.93it/s]Evaluate epoch 0:  43%|████▎     | 49/114 [00:15<00:02, 21.68it/s]Evaluate epoch 0:  46%|████▌     | 52/114 [00:15<00:02, 23.14it/s]Evaluate epoch 0:  48%|████▊     | 55/114 [00:15<00:02, 23.48it/s]Evaluate epoch 0:  51%|█████     | 58/114 [00:15<00:02, 22.33it/s]Evaluate epoch 0:  54%|█████▍    | 62/114 [00:15<00:02, 25.69it/s]Evaluate epoch 0:  58%|█████▊    | 66/114 [00:15<00:01, 29.18it/s]Evaluate epoch 0:  61%|██████▏   | 70/114 [00:15<00:01, 26.29it/s]Evaluate epoch 0:  65%|██████▍   | 74/114 [00:15<00:01, 27.57it/s]Evaluate epoch 0:  68%|██████▊   | 78/114 [00:16<00:01, 29.47it/s]Evaluate epoch 0:  72%|███████▏  | 82/114 [00:16<00:01, 30.03it/s]Evaluate epoch 0:  75%|███████▌  | 86/114 [00:16<00:00, 28.01it/s]Evaluate epoch 0:  78%|███████▊  | 89/114 [00:16<00:00, 27.62it/s]Evaluate epoch 0:  82%|████████▏ | 93/114 [00:16<00:00, 28.15it/s]Evaluate epoch 0:  84%|████████▍ | 96/114 [00:16<00:00, 27.92it/s]Evaluate epoch 0:  88%|████████▊ | 100/114 [00:16<00:00, 29.38it/s]Evaluate epoch 0:  90%|█████████ | 103/114 [00:16<00:00, 27.33it/s]Evaluate epoch 0:  93%|█████████▎| 106/114 [00:17<00:00, 27.89it/s]Evaluate epoch 0:  96%|█████████▌| 109/114 [00:17<00:00, 28.14it/s]Evaluate epoch 0:  98%|█████████▊| 112/114 [00:17<00:00, 28.51it/s]Evaluate epoch 0: 100%|██████████| 114/114 [00:18<00:00,  6.26it/s]
+Evaluation
+
+--- Entities (named entity recognition (NER)) ---
+An entity is considered correct if the entity type and span is predicted correctly
+
+                type    precision       recall     f1-score      support
+                HEAL        76.48        72.74        74.56          675
+                PHYS        66.35        57.61        61.67          243
+                OTHE         0.00         0.00         0.00            0
+                SIGN        58.33        46.67        51.85           60
+                SYMP        33.33        29.41        31.25           51
+                GENE        72.64        71.96        72.30          214
+                MUTA         0.00         0.00         0.00            0
+                METH        81.30        77.99        79.61         1104
+                DISE        90.81        92.59        91.69         1228
+                REGI        70.71        72.26        71.48          137
+                DRUG        68.99        79.84        74.02          248
+
+               micro        80.08        78.86        79.47         3960
+               macro        56.27        54.64        55.31         3960
+
+--- Relations ---
+
+Without named entity classification (NEC)
+A relation is considered correct if the relation type and the spans of the two related entities are predicted correctly (entity type is not considered)
+
+                type    precision       recall     f1-score      support
+                TREA        51.22        57.53        54.19          146
+                HYPO        57.41        59.62        58.49          156
+                RISK        60.61        50.31        54.98          159
+                HELP        64.79        64.79        64.79           71
+                LOCA        49.28        44.74        46.90           76
+                ABBR        73.21        82.55        77.60          149
+                CHAR        43.48        37.74        40.40          106
+                OCCU        58.39        66.20        62.05          142
+                ASSO        52.61        37.88        44.05          425
+
+               micro        56.98        52.80        54.81         1430
+               macro        56.78        55.71        55.94         1430
+
+With named entity classification (NEC)
+A relation is considered correct if the relation type and the two related entities are predicted correctly (in span and entity type)
+
+                type    precision       recall     f1-score      support
+                TREA        45.12        50.68        47.74          146
+                HYPO        54.32        56.41        55.35          156
+                RISK        58.33        48.43        52.92          159
+                HELP        60.56        60.56        60.56           71
+                LOCA        47.83        43.42        45.52           76
+                ABBR        70.24        79.19        74.45          149
+                CHAR        32.61        28.30        30.30          106
+                OCCU        55.90        63.38        59.41          142
+                ASSO        40.52        29.18        33.93          425
+
+               micro        51.09        47.34        49.15         1430
+               macro        51.72        51.06        51.13         1430
+2026-05-04 13:04:01,045 [MainThread  ] [INFO ]  Logged in: data/log/combined/combined_eval_mdkg/2026-05-04_13:03:30.070396
