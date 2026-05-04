@@ -87,19 +87,21 @@ Run `convert_to_spert.py` to convert these into SpERT's token-index format befor
 
 ## Setup
 
+### Option 1: Conda (recommended)
 ```bash
-# Create conda environment
+conda env create -f environment.yml
+conda activate bios740_final
+```
+
+### Option 2: pip
+```bash
 conda create -n bios740_final python=3.11 -y
 conda activate bios740_final
-
-# Install PyTorch with CUDA (adjust cu version to match your driver)
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu129
-
-# Install dependencies
-pip install numpy scikit-learn transformers==4.28.0 jinja2 tensorboardX spacy protobuf==3.20.3
-python -m spacy download en_core_web_sm
-pip install --upgrade tensorboardX jinja2
+pip install -r requirements_full.txt
 ```
+
+> **Note:** PyTorch installation depends on your CUDA version. The command above assumes CUDA 12.9. Check your version with `nvidia-smi` and adjust the `--index-url` accordingly. See [PyTorch installation guide](https://pytorch.org/get-started/locally/) for other versions.
 
 ---
 
